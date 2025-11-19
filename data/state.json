@@ -1,0 +1,64 @@
+[
+  {
+    "filename": "wibuku-review.csv",
+    "nama_aplikasi": "wibuku",
+    "img_paths": [
+      "static/img/wibuku/wibuku-bintang-20250803_132509.png",
+      "static\\img\\wibuku\\wibuku-confusion_matrix-20250803_163814.png",
+      "static\\img\\wibuku\\wibuku-wordcloud-positif-20250803_163814.png",
+      "static\\img\\wibuku\\wibuku-wordcloud-negatif-20250803_163814.png"
+    ],
+    "filepath": "data/file/wibuku-review.csv",
+    "status": "classified",
+    "tanggal_upload": "2025-08-03 13:25:10",
+    "klasifikasi_path": "data\\klasifikasi\\wibuku-klasifikasi.csv"
+  },
+  {
+    "filename": "iqiyi-review.csv",
+    "nama_aplikasi": "iqiyi",
+    "img_paths": [
+      "static/img/iqiyi/iqiyi-bintang-20250803_132453.png",
+      "static\\img\\iqiyi\\iqiyi-confusion_matrix-20250803_164307.png",
+      "static\\img\\iqiyi\\iqiyi-wordcloud-positif-20250803_164307.png",
+      "static\\img\\iqiyi\\iqiyi-wordcloud-negatif-20250803_164307.png"
+    ],
+    "filepath": "data/file/iqiyi-review.csv",
+    "status": "classified",
+    "tanggal_upload": "2025-08-03 13:24:53",
+    "klasifikasi_path": "data\\klasifikasi\\iqiyi-klasifikasi.csv"
+  },
+  {
+    "filename": "crunchyroll-review.csv",
+    "nama_aplikasi": "crunchyroll",
+    "img_paths": [
+      "static/img/crunchyroll/crunchyroll-bintang-20250803_132435.png",
+      "static\\img\\crunchyroll\\crunchyroll-confusion_matrix-20250803_162920.png",
+      "static\\img\\crunchyroll\\crunchyroll-wordcloud-positif-20250803_162920.png",
+      "static\\img\\crunchyroll\\crunchyroll-wordcloud-negatif-20250803_162920.png"
+    ],
+    "filepath": "data/file/crunchyroll-review.csv",
+    "status": "classified",
+    "tanggal_upload": "2025-08-03 13:24:36",
+    "klasifikasi_path": "data\\klasifikasi\\crunchyroll-klasifikasi.csv"
+  },
+  {
+    "filename": "testdata2-review.csv",
+    "nama_aplikasi": "testdata2",
+    "img_paths": [
+      "static/img/testdata2/testdata2-bintang-20250728_120543.png"
+    ],
+    "filepath": "data/file/testdata2-review.csv",
+    "status": "preprocessed",
+    "tanggal_upload": "2025-07-28 12:05:43"
+  },
+  {
+    "filename": "testdata-review.csv",
+    "nama_aplikasi": "testdata",
+    "img_paths": [
+      "static/img/testdata/testdata-bintang-20250727_004112.png"
+    ],
+    "filepath": "data/file/testdata-review.csv",
+    "status": "uploaded",
+    "tanggal_upload": "2025-07-27 00:41:12"
+  }
+]

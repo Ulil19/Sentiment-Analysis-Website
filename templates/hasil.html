@@ -1,0 +1,155 @@
+{% extends "layouts/base.html" %}
+{% block title %}Hasil Klasifikasi{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-xl p-6 mb-5 border border-gray-200">
+    <h1 class="text-3xl font-extrabold mb-4 text-blue-700 tracking-wide">Hasil Klasifikasi Sentimen</h1>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="space-y-1 text-sm">
+        {% for category, message in messages %}
+        <div class="px-3 py-1 rounded text-white font-medium text-sm
+                        {% if category == 'success' %}
+                            bg-green-500
+                        {% elif category == 'error' %}
+                            bg-red-500
+                        {% elif category == 'warning' %}
+                            bg-yellow-500 text-gray-800
+                        {% else %}
+                            bg-blue-500
+                        {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- Checkbox aplikasi -->
+    <form id="app-selection-form" method="POST" action="{{ url_for('hasil') }}">
+        <label class="block mb-4 font-semibold text-lg text-gray-700">Pilih Maksimal 3 Aplikasi:</label>
+        <div class="flex flex-wrap gap-4 mb-6">
+            {% for app in apps %}
+            <label
+                class="inline-flex items-center bg-gray-100 px-3 py-2 rounded-lg shadow-sm hover:bg-blue-50 transition">
+                <input type="checkbox" name="apps" value="{{ app.nama_aplikasi }}"
+                    class="form-checkbox h-5 w-5 text-blue-600 accent-blue-600" onchange="limitSelection(this)">
+                <span class="ml-2 text-gray-800 font-medium">{{ app.nama_aplikasi }}</span>
+            </label>
+            {% endfor %}
+        </div>
+        <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 font-semibold transition">
+            Tampilkan Hasil
+        </button>
+    </form>
+</div>
+<!-- Loop hasil tiap aplikasi -->
+{% for result in results %}
+<div class="bg-white shadow-xl rounded-2xl p-8 mb-5 border border-gray-200">
+    <h2 class="text-2xl font-bold mb-6 text-blue-600 tracking-wide">{{ result.nama_aplikasi | upper }}</h2>
+
+    <!-- Classification Report Table -->
+    <div class="mb-8 flex items-center justify-between">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Classification Report</h3>
+        <form method="POST" action="{{ url_for('export_excel') }}">
+            <input type="hidden" name="nama_aplikasi" value="{{ result.nama_aplikasi }}">
+            <button type="submit"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 font-semibold transition text-sm">
+                Export Excel
+            </button>
+        </form>
+    </div>
+    <div class="overflow-x-auto rounded-lg shadow">
+        <table class="min-w-full border border-gray-200 text-sm text-left bg-white">
+            <thead class="bg-blue-100">
+                <tr>
+                    {% for col in result.classification_report.columns %}
+                    <th class="px-4 py-3 border-b border-gray-200 font-bold text-blue-800">{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for _, row in result.classification_report.iterrows() %}
+                <tr class="hover:bg-blue-50 even:bg-gray-50 transition">
+                    {% for val in row %}
+                    <td class="px-4 py-2 border-b border-gray-100 text-gray-700">{{ val }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="bg-white shadow-xl rounded-2xl p-8 mb-5 border border-gray-200">
+    <!-- Review CSV Table -->
+    <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Data Review</h3>
+        <div class="overflow-x-auto max-h-96 overflow-y-scroll rounded-lg shadow">
+            <table id="dataTable" class="min-w-full border border-gray-200 text-sm text-left bg-white">
+                <thead class="bg-blue-100">
+                    <tr>
+                        {% for col in result.review_data.columns %}
+                        <th class="px-4 py-3 border-b border-gray-200 font-bold text-blue-800">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in result.review_data.iterrows() %}
+                    <tr class="hover:bg-blue-50 even:bg-gray-50 transition">
+                        {% for val in row %}
+                        <td class="px-4 py-2 border-b border-gray-100 text-gray-700">{{ val }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="bg-white shadow-xl rounded-2xl p-8 mb-10 border border-gray-200">
+    <!-- Visualisasi -->
+    <div>
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Visualisasi</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for img_path in result.images %}
+            <div class="border border-gray-200 p-2 shadow rounded-lg bg-gray-50 flex items-center justify-center">
+                <img src="{{ url_for('static', filename=img_path) }}" class="w-full h-auto rounded" alt="">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+    function limitSelection(checkbox) {
+        const selected = document.querySelectorAll('input[name="apps"]:checked');
+        if (selected.length > 3) {
+            checkbox.checked = false;
+            alert("Maksimal hanya boleh memilih 3 aplikasi.");
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById('dataTable')) {
+            $('#dataTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [5, 10, 25, 50],
+                language: {
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ data",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    paginate: {
+                        first: "Awal",
+                        last: "Akhir",
+                        next: "Berikutnya",
+                        previous: "Sebelumnya"
+                    },
+                    zeroRecords: "Data tidak ditemukan"
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
