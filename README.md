@@ -79,8 +79,6 @@ python app.py
 | Recall    | **90%** |
 | F1-Score  | **90%** |
 
-*Angka dapat disesuaikan dengan hasil pelatihan model Anda.*
-
 ---
 
 ## 📧 **Developer**
@@ -91,3 +89,4 @@ python app.py
 
 
 ---
+
