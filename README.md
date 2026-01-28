@@ -83,10 +83,12 @@ python app.py
 
 ## 📧 **Developer**
 
-**Nama:** Ulil
-**Email:** [ulil.fathon119@gmail.com](mailto:ulil.fathon119@gmail.com)
-**GitHub:** [https://github.com/Ulil19](https://github.com/Ulil19)
+- **Nama:** Ulil
+- **Email:** [ulil.fathon119@gmail.com](mailto:ulil.fathon119@gmail.com)
+- **GitHub:** https://github.com/Ulil19
 ---
+
+
 
 
 
